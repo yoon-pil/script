@@ -78,7 +78,7 @@ if len(sys.argv) == 1:
 elif sys.argv[1] == "-h" or sys.argv[1] == "--help":
     print("""
  FW,L4,SW 컨피그를 전송하는 스크립트입니다.
-Usage: confBackup.py [OPTION]...
+Usage: confTrans.py [OPTION]...
 [OPTION]
    -h, --help		도움말 페이지를 확인할 수 있습니다.
    -F, --Fstart		방화벽 설정백업 파일 전송진행합니다.
