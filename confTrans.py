@@ -19,9 +19,9 @@ lastweek = now2 - timedelta(days=7)
 pastdate = lastweek.strftime('%Y%m%d')
 
 ##백업원본 위치
-FW_confDir = "/home/sabangfeel/config_info/FW_config/temp_data"
-L4_confDir = "/home/sabangfeel/config_info/L4_config/temp_data"
-L3_confDir = "/home/sabangfeel/config_info/L3_config"
+FW_confDir = "/home/[사용자]/config_info/FW_config/temp_data"
+L4_confDir = "/home/[사용자]/config_info/L4_config/temp_data"
+L3_confDir = "/home/[사용자]/config_info/L3_config"
 
 def PrintException():
     exc_type, exc_obj, tb = sys.exc_info()
@@ -36,8 +36,8 @@ def Task():
     try:
         logger.info("방화벽 컨피그 백업파일 전송을 시작합니다.")
         os.chdir(FW_confDir)
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+FW_confDir+"/"+toDay+"_Sabangnet_Office.conf sabangfeel@BACKUP03:/backup/FW_backup/FW_SYSCONFIG/Office/.'")
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+FW_confDir+"/"+toDay+"_Sabangnet_FW1.conf sabangfeel@BACKUP03:/backup/FW_backup/FW_SYSCONFIG/IDC/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+FW_confDir+"/"+toDay+"_Office.conf backupuser@BACKUP03:/backup/FW_backup/FW_SYSCONFIG/Office/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+FW_confDir+"/"+toDay+"_FW1.conf backupuser@BACKUP03:/backup/FW_backup/FW_SYSCONFIG/IDC/.'")
          logger.info("백업파일 전송을 종료합니다.")
     except KeyboardInterrupt:
         logger.warn("프로그램을 강제종료 하였습니다.")
@@ -48,7 +48,7 @@ def Task2():
     try:
         logger.info("L4컨피그 백업파일 전송을 시작합니다.")
         os.chdir(L4_confDir)
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+L4_confDir+"/"+toDay+"_L4_Active_ns.conf sabangfeel@BACKUP03:/backup/L4_backup/config/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+L4_confDir+"/"+toDay+"_L4_Active_ns.conf backupuser@BACKUP03:/backup/L4_backup/config/.'")
         logger.info("백업파일 전송을 종료합니다.")
     except KeyboardInterrupt:
         logger.warn("프로그램을 강제종료 하였습니다.")
@@ -58,15 +58,15 @@ def Task3():
     try:
         logger.info("스위치 컨피그 백업파일 전송을 시작합니다.")
         os.chdir(L3_confDir)
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW1.conf sabangfeel@BACKUP03:/backup/SW_backup/.'")
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW2.conf sabangfeel@BACKUP03:/backup/SW_backup/.'")
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW3.conf sabangfeel@BACKUP03:/backup/SW_backup/.'")
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW4.conf sabangfeel@BACKUP03:/backup/SW_backup/.'")
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW5.conf sabangfeel@BACKUP03:/backup/SW_backup/.'")
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW6.conf sabangfeel@BACKUP03:/backup/SW_backup/.'")
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW7.conf sabangfeel@BACKUP03:/backup/SW_backup/.'")
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_SVC_SW1.conf sabangfeel@BACKUP03:/backup/SW_backup/.'")
-        os.system("su - sabangfeel -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_SVC_SW2.conf sabangfeel@BACKUP03:/backup/SW_backup/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW1.conf backupuser@BACKUP03:/backup/SW_backup/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW2.conf backupuser@BACKUP03:/backup/SW_backup/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW3.conf backupuser@BACKUP03:/backup/SW_backup/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW4.conf backupuser@BACKUP03:/backup/SW_backup/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW5.conf backupuser@BACKUP03:/backup/SW_backup/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW6.conf backupuser@BACKUP03:/backup/SW_backup/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_HOST_SW7.conf backupuser@BACKUP03:/backup/SW_backup/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_SVC_SW1.conf backupuser@BACKUP03:/backup/SW_backup/.'")
+        os.system("su - backupuser -c 'scp -rpP 5170 "+L3_confDir+"/"+toDay+"_SB_SVC_SW2.conf backupuser@BACKUP03:/backup/SW_backup/.'")
              logger.info("백업파일 전송을 종료합니다.")
     except KeyboardInterrupt:
         logger.warn("프로그램을 강제종료 하였습니다.")
