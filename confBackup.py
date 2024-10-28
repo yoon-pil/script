@@ -16,8 +16,8 @@ now = datetime.datetime.now()
 toDay = now.strftime('%Y%m%d')
 
 ## 백업받을위치
-FW_confDir = "/home/sabangfeel/config_info/FW_config/temp_data"
-L4_confDir = "/home/sabangfeel/config_info/L4_config/temp_data"
+FW_confDir = "/home/[사용자]/config_info/FW_config/temp_data"
+L4_confDir = "/home/[사용자]/config_info/L4_config/temp_data"
 
 def PrintException():
     exc_type, exc_obj, tb = sys.exc_info()
@@ -32,11 +32,11 @@ def Task():
     try:
         logger.info("백업 작업을 시작합니다.")
         os.chdir(FW_confDir)
-        ssh = sshModule_ForFW.client('SabangOffice_FW', 'config_backup', FWpass)
-        ssh.GET('sys_config', toDay+"_Sabangnet_Office.conf")
+        ssh = sshModule_ForFW.client('Office_FW', 'config_backup', FWpass)
+        ssh.GET('sys_config', toDay+"_Office.conf")
         ssh.scp.close()
         ssh.ssh.close()
-        os.system("chown sabangfeel:sabangfeel "+FW_confDir+"/"+toDay+"_Sabangnet_Office.conf")
+        os.system("chown [사용자]:[사용자] "+FW_confDir+"/"+toDay+"_Office.conf")
         logger.info("백업 작업을 종료합니다.")
     except KeyboardInterrupt:
         logger.warn("프로그램을 강제종료 하였습니다.")
@@ -47,11 +47,11 @@ def Task2():
     try:
         logger.info("백업 작업을 시작합니다.")
         os.chdir(FW_confDir)
-        ssh = sshModule_ForFW.client('SB-FW1', 'config_backup', FWpass)
+        ssh = sshModule_ForFW.client('FW1', 'config_backup', FWpass)
         ssh.GET('sys_config', toDay+"_Sabangnet_FW1.conf")
         ssh.scp.close()
         ssh.ssh.close()
-        os.system("chown sabangfeel:sabangfeel "+FW_confDir+"/"+toDay+"_Sabangnet_FW1.conf")
+        os.system("chown [사용자]:[사용자] "+FW_confDir+"/"+toDay+"_FW1.conf")
         logger.info("백업 작업을 종료합니다.")
     except KeyboardInterrupt:
         logger.warn("프로그램을 강제종료 하였습니다.")
@@ -62,12 +62,11 @@ def Task3():
     try:
         logger.info("L4 Active장비백업 작업을 시작합니다.")
         os.chdir(L4_confDir)
-        ssh = sshModule_ForFW.client('SB-L4-1', 'config_backup', L4pass)
+        ssh = sshModule_ForFW.client('L4-1', 'config_backup', L4pass)
         ssh.GET('/nsconfig/ns.conf', toDay+"_L4_Active_ns.conf")
         ssh.scp.close()
         ssh.ssh.close()
-        os.system("chown sabangfeel:sabangfeel "+L4_confDir+"/"+toDay+"_L4_Active_ns.conf")
-        #os.system("rm -rf "+FW_confDir+"/"+toDay+"_Sabangnet_Office.conf")
+        os.system("chown [사용자]:[사용자] "+L4_confDir+"/"+toDay+"_L4_Active_ns.conf")
         logger.info("백업 작업을 종료합니다.")
     except KeyboardInterrupt:
         logger.warn("프로그램을 강제종료 하였습니다.")
@@ -78,11 +77,11 @@ def Task4():
     try:
         logger.info("L4 Backup장비백업 작업을 시작합니다.")
         os.chdir(L4_confDir)
-        ssh = sshModule_ForFW.client('SB-L4-2', 'config_backup', L4pass)
+        ssh = sshModule_ForFW.client('L4-2', 'config_backup', L4pass)
         ssh.GET('/nsconfig/ns.conf', toDay+"_L4_Backup_ns.conf")
         ssh.scp.close()
         ssh.ssh.close()
-        os.system("chown sabangfeel:sabangfeel "+L4_confDir+"/"+toDay+"_L4_Backup_ns.conf")
+        os.system("chown [사용자]:[사용자] "+L4_confDir+"/"+toDay+"_L4_Backup_ns.conf")
         logger.info("백업 작업을 종료합니다.")
     except KeyboardInterrupt:
         logger.warn("프로그램을 강제종료 하였습니다.")
@@ -97,16 +96,16 @@ elif sys.argv[1] == "-h" or sys.argv[1] == "--help":
 Usage: confBackup.py [OPTION]...
 [OPTION]
    -h, --help		도움말 페이지를 확인할 수 있습니다.
-   -Os, --Ostart	사방넷오피스방화벽 설정파일 백업을 진행합니다.
-   -Is, --Istart	사방넷 IDC방화벽 설정파일 백업을 진행합니다.
-   -As, --Astart	사방넷 L4장비(Active)  설정파일 백업을 진행합니다.
-   -Bs, --Bstart	사방넷 L4장비(Backup) 설정파일 백업을 진행합니다.
+   -Os, --Ostart	 오피스방화벽 설정파일 백업을 진행합니다.
+   -Is, --Istart	 IDC방화벽 설정파일 백업을 진행합니다.
+   -As, --Astart	 L4장비(Active)  설정파일 백업을 진행합니다.
+   -Bs, --Bstart	 L4장비(Backup) 설정파일 백업을 진행합니다.
     """)
 elif sys.argv[1] == "-Os" or sys.argv[1] == "--Ostart":
     logger = LogModule.Logging(Filename='confBackup', Day='7')
     try:
         AESC = AES_Cipher.AESCipher(key='mykey')
-        Pw = Passfile.gubun("SabangOffice_FW")
+        Pw = Passfile.gubun("Office_FW")
         FWpass = AESC.decrypt(Pw)
         Task()
     except:
@@ -116,7 +115,7 @@ elif sys.argv[1] == "-Is" or sys.argv[1] == "--Istart":
     logger = LogModule.Logging(Filename='confBackup', Day='7')
     try:
         AESC = AES_Cipher.AESCipher(key='mykey')
-        Pw = Passfile.gubun("SB-FW1")
+        Pw = Passfile.gubun("FW1")
         FWpass = AESC.decrypt(Pw)
         Task2()
     except:
@@ -125,7 +124,7 @@ elif sys.argv[1] == "-As" or sys.argv[1] == "--Astart":
     logger = LogModule.Logging(Filename='confBackup', Day='7')
     try:
         AESC = AES_Cipher.AESCipher(key='mykey')
-        Pw = Passfile.gubun("SB-L4-1")
+        Pw = Passfile.gubun("L4-1")
         L4pass = AESC.decrypt(Pw)
         Task3()
     except:
@@ -135,7 +134,7 @@ elif sys.argv[1] == "-Bs" or sys.argv[1] == "--Bstart":
     logger = LogModule.Logging(Filename='confBackup', Day='7')
     try:
         AESC = AES_Cipher.AESCipher(key='mykey')
-        Pw = Passfile.gubun("SB-L4-2")
+        Pw = Passfile.gubun("L4-2")
         L4pass = AESC.decrypt(Pw)
         Task4()
     except:
